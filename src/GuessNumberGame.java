@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class GuessNumberGame {
     private static final int MAX_VALUE = 100;
+
     public static void main(String[] args) {
         int numberToGuess = new Random().nextInt(MAX_VALUE);
         for (int tries = 5; tries > 0; --tries) {
@@ -32,12 +33,14 @@ public class GuessNumberGame {
             System.out.println("Attempts left: " + (tries - 1));
             System.out.println("Please try again");
         }
-        }
-    private static int getNumberFromUser() {
-            Scanner scan = new Scanner(System.in);
-            return scan.nextInt();
     }
+
+    private static int getNumberFromUser() {
+        Scanner scan = new Scanner(System.in);
+        return scan.nextInt();
+    }
+
     private static void printHint(String hint) {
-        System.out.println("Your number is " +hint+ " than the one you are trying to guess");
+        System.out.println("Your number is " + hint + " than the one you are trying to guess");
     }
 }
