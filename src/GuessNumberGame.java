@@ -1,33 +1,43 @@
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class GuessNumberGame {
+    private static final int MAX_VALUE = 100;
     public static void main(String[] args) {
-        final int MAX_VALUE = 100;
         int numberToGuess = new Random().nextInt(MAX_VALUE);
-
-        for (int numberOfTry = 5; numberOfTry > 0; --numberOfTry) {
+        for (int tries = 5; tries > 0; --tries) {
             System.out.println("Guess the number from 0 to 99: ");
-            Scanner scan = new Scanner(System.in);
-            int userInput = scan.nextInt();
+            int userInput;
+            try {
+                userInput = getNumberFromUser();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid format");
+                continue;
+            }
             if (userInput >= MAX_VALUE || userInput < 0) {
                 System.out.println("Wrong number, you need choose number from 0 to 99");
-            } else {
-                if (userInput > numberToGuess) {
-                    System.out.println("Your number is GREATER than the one you are trying to guess");
-                } else if (userInput < numberToGuess) {
-                    System.out.println("Your number is LOWER than the one you are trying to guess");
-                } else {
-                    System.out.println("You guessed it!");
-                    break;
-                }
-                System.out.println("Attempts left: " + (numberOfTry - 1));
-                if (numberOfTry > 1) {
-                    System.out.println("Please try again");
-                } else {
-                    System.out.println("Sorry you didn't guess the number, the answer was: " + numberToGuess);
-                }
+                continue;
             }
+            if (userInput == numberToGuess) {
+                System.out.println("You guessed it!");
+                break;
+            }
+            printHint(userInput > numberToGuess ? "GREATER" : "LOWER");
+
+            if (tries == 1) {
+                System.out.println("Sorry you didn't guess the number, the answer was: " + numberToGuess);
+                break;
+            }
+            System.out.println("Attempts left: " + (tries - 1));
+            System.out.println("Please try again");
         }
+        }
+    private static int getNumberFromUser() {
+            Scanner scan = new Scanner(System.in);
+            return scan.nextInt();
+    }
+    private static void printHint(String hint) {
+        System.out.println("Your number is " +hint+ " than the one you are trying to guess");
     }
 }
